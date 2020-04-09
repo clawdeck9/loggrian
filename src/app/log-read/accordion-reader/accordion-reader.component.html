@@ -1,0 +1,12 @@
+<p>accordion-reader works!</p>
+<div class="ui accordion styled">
+    <ng-container *ngFor="let log of data; let i of index">
+        <div [ngClass]="{active:i===currentIndex}" class="title" (click)="onTitleClick(i)">
+            <i class="dropdown icon"></i>
+            {{log.title}}
+        </div>
+        <div class="content" [ngClass]="{active:i===currentIndex}">
+            <p>{{log.text}}</p>
+        </div>
+    </ng-container>
+</div>

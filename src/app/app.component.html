@@ -1,11 +1,10 @@
 <div class="ui-container">
-    <div class="ui secondary pointing menu"> 
-        <a routerLink="log-creation" routerLinkActive="active" class="item">New Log</a>
-        <a routerLink="log-search" routerLinkActive="active" class="item">Find a Log</a>
-    </div>
-    <div class="ui element">
-        <router-outlet></router-outlet>
-    </div>
+  <div class="ui secondary pointing menu">
+    <a routerLink="log-search" routerLinkActive="active" class="item">Find a Log</a>
+    <a routerLink="log-creation" routerLinkActive="active" class="item">New Log</a>
+    <a routerLink="log-read" routerLinkActive="active" class="item">Log reader</a>
+  </div>
+  <div class="ui element">
+    <router-outlet></router-outlet>
+  </div>
 </div>
-
-

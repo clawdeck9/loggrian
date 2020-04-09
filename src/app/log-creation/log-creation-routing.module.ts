@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LogCreationFormComponent } from './log-creation-form/log-creation-form.component';
 
-const routes: Routes = [ { path: 'log-creation', component: LogCreationFormComponent}];
+const routes: Routes = [ { path: '', component: LogCreationFormComponent}];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
