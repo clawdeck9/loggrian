@@ -1,1 +1,7 @@
-<p>creation-form works!</p>
+<form [formGroup]="creationForm" (ngSubmit)="onSubmit()">
+  <label class="label">Title</label>
+  <div class="control">
+    <input class="input" type="text" formControlName="title">
+  </div>
+</form>
+title {{creationForm.value | json}}

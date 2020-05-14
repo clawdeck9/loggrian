@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LogsService } from '../../logs.service';
+
+
 @Component({
   selector: 'app-log-creation-form',
   templateUrl: './log-creation-form.component.html',

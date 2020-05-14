@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms'
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-creation-form',
@@ -7,7 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreationFormComponent implements OnInit {
 
-  constructor() { }
+  creationForm = new FormGroup({
+    'title': new FormControl('title here')
+  });
+
+  constructor() {
+    console.log(this.creationForm.get('title'));
+  }
 
   ngOnInit() {
   }
