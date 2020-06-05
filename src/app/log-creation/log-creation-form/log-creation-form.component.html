@@ -1,8 +1,15 @@
 <p>log-creation-form works!</p>
-<div class="ui button" (click)="onGetALog()">get a log</div>
-<div class="ui button" (click)="onGetALogLocal()">get a log (local)</div>
-<div class="ui button" (click)="onTestPost()">post a sample log</div>
-<div class="ui button" (click)="onPostLog()">post a local log</div>
-<p>{{ log }}</p>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <button class="primary" (click)="onGetALog()">get a log</button>
+      <button class="primary" (click)="onGetALogLocal()"> get a local log</button>
+      <button class="primary" (click)="onTestPost()">post a sample log</button>
+      <button class="primary" (click)="onPostLog()">post a local log</button>
+    </div>
+  </div>
+</div>
+
+<p>log: {{ log }}</p>
 app-creation-form
 <app-creation-form></app-creation-form>

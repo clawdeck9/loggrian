@@ -10,13 +10,12 @@ import { LogsService } from '../../logs.service';
 })
 export class CreationFormComponent implements OnInit {
 
-  filteredTags = [];
+  filteredTags = ['no value'];
 
 
   creationForm = new FormGroup({
     'title': new FormControl('testintg Loggrian'),
     'tag': new FormControl(''),
-    'taglist': new FormControl('tag'),
     'text': new FormControl('a sample of the whole thing here...')
   });
 
@@ -29,11 +28,12 @@ export class CreationFormComponent implements OnInit {
       if (tagValue.length > 2) {
         this.filteredTags = this.service.getTags(tagValue);
       }
+      console.log('filtTags:', this.filteredTags);
     });
 
-    this.creationForm.get('taglist').valueChanges.subscribe( selectedVal => {
-      this.creationForm.patchValue( {'tag': selectedVal});
-    });
+    // this.creationForm.get('taglist').valueChanges.subscribe( selectedVal => {
+    //   this.creationForm.patchValue( {'tag': selectedVal});
+    // });
 
   }
 

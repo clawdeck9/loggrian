@@ -50,10 +50,8 @@ export class LogsService {
     
     let temp: string[] = [];
     for(let i in this.tags) {
-      console.log('beg ', beg, ' tag ', this.tags[i]);
       if (this.tags[i].startsWith(beg)){
         temp.push(this.tags[i]);
-        console.log('beg ', beg, ' tag ', this.tags[i]);
       }
     }
     return temp;
