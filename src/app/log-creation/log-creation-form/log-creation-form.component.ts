@@ -25,6 +25,9 @@ export class LogCreationFormComponent implements OnInit {
     if(this.service===undefined) console.log('the service is undefined in the formComponent');
     // this.service.postLog();
   }
+  onGetTags(){
+    this.service.getTagList();
+  }
   onGetALog(){
     if(this.service===undefined) console.log('the service is undefined in the formComponent');
     console.log('a log from the server: ', this.service.getLogById(3));

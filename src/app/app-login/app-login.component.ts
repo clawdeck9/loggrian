@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms'
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,7 @@ export class AppLoginComponent implements OnInit {
 
   loginForm: FormGroup;
 // validators: check the required boolean state in the loginForm validator?
-  constructor() {
+  constructor(private auth: AuthService) {
     this.loginForm = new FormGroup(
       {
         'username': new FormControl('', [Validators.required]),
@@ -22,9 +23,9 @@ export class AppLoginComponent implements OnInit {
         if (password === "") {
           return { invalidPassword: true };
         } 
-        if (username.errors===undefined){
-          return { invalidUsername: true};
-        }
+        // if (username.errors===undefined){
+        //   return { invalidUsername: true};
+        // }
         return null;
       }]
 
@@ -49,6 +50,7 @@ export class AppLoginComponent implements OnInit {
 
   onSubmit() {
     console.log('onSubmit(): ',this.loginForm);
+    this.auth.login('user', 'user');
     this.loginForm.reset();
   }
 }

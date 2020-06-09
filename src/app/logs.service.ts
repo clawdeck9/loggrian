@@ -1,18 +1,23 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { TagInterface } from './interfaces/tag-interface';
 import { LogInterface } from './interfaces/log-interface'; 
 import { AbstractControl } from '@angular/forms';
+import { mergeMap, switchMap, retry, 
+  map, catchError, filter, scan, tap } from 'rxjs/operators'; 
+
 @Injectable({
   providedIn: 'root'
 })
-export class LogsService {
+export class LogsService implements OnInit {
 // contains the whole tag vector
-  tags: string[] = ['music', 'musak', 'dp', 'dev', 'match', 'drive'];
+  tags: string[] = [];
 
   constructor(private httpCli: HttpClient) {
     if (httpCli === undefined) {
       console.log('HttpClient was not injected ');
     }
+    this.getTagList();
   }
 // https://console.firebase.google.com/project/log-dispatcher/database/log-dispatcher/data
   postASampleLog(){
@@ -20,6 +25,25 @@ export class LogsService {
       { tag:'music', title: 'mixolydian mode', text:'this is not a cool lesson for a beginner'}).
       subscribe(resp => console.log('resp : ', resp));
   }
+
+  ngOnInit(){
+  }
+
+  getTagList() {
+    this.tags = [];
+    this.httpCli.get<TagInterface[]>('http://localhost:8080/tags')
+      .pipe(
+        tap(item => {
+          console.log('resp: ', item);
+        }) ,
+        map(tagList => {
+          for( let i=0; i<tagList.length; i++){
+            this.tags.push(tagList[i].name);
+          }
+        })
+      ).subscribe(resp => console.log('subcribed'));
+  }
+
 
   postLog(form: AbstractControl){
     console.log('form: ', form.value);
@@ -38,7 +62,8 @@ export class LogsService {
 
 // https://console.firebase.google.com/project/log-dispatcher/database/log-dispatcher/data
   getLogById(num: number){
-    this.httpCli.get<LogInterface>("https://log-dispatcher.firebaseio.com/logs.json").subscribe(resp => (console.log('resp received in log service ')));
+    this.httpCli.get<LogInterface>("https://log-dispatcher.firebaseio.com/logs.json").
+    subscribe(resp => (console.log('resp received in log service ')));
   }
 
 // local dispatcher server 8080
@@ -56,11 +81,4 @@ export class LogsService {
     }
     return temp;
   }
-
-  // this.tags = this.getNewTags();
-  // this.filteredTags = this.getNewTags();
-  // // this.logFormGroup.patchValue({'tagbeg': comment ajouter une prop ici});
-  // this.logFormGroup.get("tagbeg").valueChanges.subscribe( value => {
-  //   // filter the tag list
-  //   this.filteredTags = this.tags.filter(tag => tag.startsWith(value));
 }

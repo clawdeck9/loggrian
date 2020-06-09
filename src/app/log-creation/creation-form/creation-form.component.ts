@@ -10,7 +10,7 @@ import { LogsService } from '../../logs.service';
 })
 export class CreationFormComponent implements OnInit {
 
-  filteredTags = ['no value', 'but...'];
+  filteredTags = ['no value', 'but...', 'this', 'could', 'be', 'longer'];
 
 
   creationForm = new FormGroup({
@@ -26,7 +26,7 @@ export class CreationFormComponent implements OnInit {
 
   ngOnInit() {
     this.creationForm.get('tag').valueChanges.subscribe(tagValue => {
-      if (tagValue.length > 2) {
+      if (tagValue.length > 1) {
         this.filteredTags = this.service.getTags(tagValue);
       }
       console.log('filtTags:', this.filteredTags);
@@ -39,6 +39,6 @@ export class CreationFormComponent implements OnInit {
   }
   onSubmit(){
     console.log('form:', this.creationForm);
-    // this.service.postLog(this.creationForm);
+    this.service.postLog(this.creationForm);
   }
 }
