@@ -1,10 +1,13 @@
 import { Injectable, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { TagInterface } from './interfaces/tag-interface';
+import { TaskInterface } from './interfaces/task-interface'; 
 import { LogInterface } from './interfaces/log-interface'; 
 import { AbstractControl } from '@angular/forms';
-import { mergeMap, switchMap, retry, 
-  map, catchError, filter, scan, tap } from 'rxjs/operators'; 
+import { mergeMap, switchMap, retry, map, catchError, filter, scan, tap } from 'rxjs/operators'; 
+import { AuthService } from './auth.service';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -13,15 +16,15 @@ export class LogsService implements OnInit {
 // contains the whole tag vector
   tags: string[] = [];
 
-  constructor(private httpCli: HttpClient) {
-    if (httpCli === undefined) {
+  constructor(private auth: AuthService, private http: HttpClient) {
+    if (http === undefined) {
       console.log('HttpClient was not injected ');
     }
-    this.getTagList();
+    // this.getTagList();
   }
 // https://console.firebase.google.com/project/log-dispatcher/database/log-dispatcher/data
   postASampleLog(){
-    this.httpCli.post("https://log-dispatcher.firebaseio.com/logs.json", 
+    this.http.post("https://log-dispatcher.firebaseio.com/logs.json", 
       { tag:'music', title: 'mixolydian mode', text:'this is not a cool lesson for a beginner'}).
       subscribe(resp => console.log('resp : ', resp));
   }
@@ -31,7 +34,7 @@ export class LogsService implements OnInit {
 
   getTagList() {
     this.tags = [];
-    this.httpCli.get<TagInterface[]>('http://localhost:8080/tags')
+    this.http.get<TagInterface[]>('http://localhost:8080/tags')
       .pipe(
         tap(item => {
           console.log('resp: ', item);
@@ -43,13 +46,57 @@ export class LogsService implements OnInit {
         })
       ).subscribe(resp => console.log('subcribed'));
   }
+  gardelaplace(tag: string){
+    console.log('getLogsByTag::getTasks()');
+    this.auth.userLoggedIn.pipe(
+      tap(data => console.log('user???: ', data))
+    );// pipe
+  }
+// get some tasks from the jwtsecurity spring app
+  placeholder(tag: string){
+    return this.auth.userLoggedIn.pipe(
+      map(
+        user => {
+          console.log('getLogsByTag::getTasks()');
+          return this.http.get<TaskInterface[]>('http://localhost:8080/tasks', {
+            headers: new HttpHeaders().set('authorization', user.token),
+            withCredentials: true,
+            observe: 'body'
+          })
+        }
+      ), // map
+      tap(data => console.log('tasks: ', data[1]))
+    );// pipe
+  }
 
+  getLogsByTag(tag: string) {
+    return this.http.get<TaskInterface[]>('http://localhost:8080/tags', {
+      headers: new HttpHeaders().set('authorization', 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxNTk2Njk5OTY5LCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiVVNFUiJ9XX0.jprom03E4xSWGO9hoj--oNC91rc74mu8HOBku0UNp8w'),
+      withCredentials: true,
+      observe: 'body'
+    })
+  }
 
-  postLog(form: AbstractControl){
+  postLog(){
+    console.log('temp post a task ');
+    const temp = this.auth.userLoggedIn.value;
+
+    this.http.post<TaskInterface>("http://localhost:8080/tasks", {id: '5', taskName:'nom' }, {
+      // headers: new HttpHeaders({ 'withCredentials': 'true'}).set('authorization', temp.token),
+      headers: new HttpHeaders().set('authorization', temp.token),
+      observe: 'body'
+    }).
+      subscribe(
+        resp => {console.log('resp : ', resp)},
+        error => {console.log('error: ', error)}
+      );
+  }
+
+  placeholder_postLog(form: AbstractControl){
     console.log('form: ', form.value);
     const { tag, title, text } = form.value;
     const fileName = "filename.txt"
-    this.httpCli.post<LogInterface>("http://localhost:8080/logs", {tag, title, text, fileName }).
+    this.http.post<LogInterface>("http://localhost:8080/logs", {tag, title, text, fileName }).
       subscribe(
         resp => {console.log('resp : ', resp)},
         error => {console.log('error: ', error)}
@@ -62,13 +109,13 @@ export class LogsService implements OnInit {
 
 // https://console.firebase.google.com/project/log-dispatcher/database/log-dispatcher/data
   getLogById(num: number){
-    this.httpCli.get<LogInterface>("https://log-dispatcher.firebaseio.com/logs.json").
+    this.http.get<LogInterface>("https://log-dispatcher.firebaseio.com/logs.json").
     subscribe(resp => (console.log('resp received in log service ')));
   }
 
 // local dispatcher server 8080
   getLogByIdLocal(num: number){
-    return this.httpCli.get<LogInterface>("http://localhost:8080/log?id=306");
+    return this.http.get<LogInterface>("http://localhost:8080/log?id=306");
   }
 
   getTags(beg: string){

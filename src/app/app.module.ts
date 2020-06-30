@@ -9,13 +9,16 @@ import { AppNotfoundComponent } from './app-notfound/app-notfound.component';
 import { LogCreationModule } from './log-creation/log-creation.module';
 import { LogSearchModule } from './log-search/log-search.module';
 import { AppLoginComponent } from './app-login/app-login.component';
+import { HeaderComponent } from './header/header.component';
+// import { AuthService } from './auth.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     AppHomeComponent,
     AppNotfoundComponent,
-    AppLoginComponent
+    AppLoginComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
