@@ -31,7 +31,7 @@ export class AuthService implements OnInit {
   }
 
   login(name: string, password: string) {
-    // temp: replace the credentials
+    // temp: replace the credentials from the login form
     this.http.post<any>('http://localhost:8080/login', 
       { "username": "user", "password": "pass" },  
       {
@@ -39,13 +39,14 @@ export class AuthService implements OnInit {
         responseType: 'json',
         withCredentials: true,
       })
-      .pipe(catchError(this.handleError), tap(resData => { 
-        const bearer: string = resData.headers.get('authorization');
-        console.log('resData: ', bearer);
+      .pipe(
+        catchError(this.handleError), 
+        tap(resData => { 
+        const jwt: string = resData.headers.get('authorization');
+        console.log('this one when the user logs in: ', jwt);
         // decode the user name here 
-        const newUser = new User('claude', bearer);
+        const newUser = new User(name, jwt);
         this.userLoggedIn.next(newUser);
-
       }))
       .subscribe();
   }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LogsService } from '../../logs.service';
 
 
+
 @Component({
   selector: 'app-log-creation-form',
   templateUrl: './log-creation-form.component.html',
@@ -17,9 +18,7 @@ export class LogCreationFormComponent implements OnInit {
   ngOnInit() {
   }
 
-  onTestPost(){
-    if(this.service===undefined) console.log('the service is undefined in the formComponent');
-    this.service.postASampleLog();
+  onTestSubject(){
   }
   onPostLog(){
     if(this.service===undefined) console.log('the service is undefined in the formComponent');
@@ -27,24 +26,35 @@ export class LogCreationFormComponent implements OnInit {
   }
 
   // fetch some data from jwt securtiy app
-  onGetTags(){
-    this.service.getLogsByTag('nada').subscribe(
-      resp =>  {this.log = resp}, 
-      error => {
-        this.errorLog = error;
-        console.log('error message ', error.message);
-      }
-    );
+  onGetFilteredTags(beg: string){
+    // this.service.getFilteredTagList(beg).subscribe(
+    //   resp =>  {this.log = resp}, 
+    //   error => {
+    //     this.errorLog = error;
+    //     console.log('error message ', error.message);
+    //   }
+    // );
   }
-  onGetALog(){
+
+  // fetch the tags in API and store them in the logsService
+  onGetTags(){
     if(this.service===undefined) console.log('the service is undefined in the formComponent');
+    this.service.initTagList();
+  }
+  
+
+  onGetALog(){
     console.log('a log from the server: ', this.service.getLogById(3));
   }
-  onGetALogLocal(){
+
+  // TODO: add a tag name as param to get a list of logs
+  onGetlogs(){
     if(this.service===undefined) console.log('the service is undefined in the formComponent');
-    console.log('a log from the server: ');
-    this.service.getLogByIdLocal(3).subscribe(
-      resp =>  {this.log = resp.tag}, 
+
+    console.log('logs from the server: ');
+
+    this.service.getLogsByTag('music').subscribe(
+      resp =>  {() => console.log('end od logs ')}, 
       error => {
         this.errorLog = error;
         console.log('error message ', error.message);

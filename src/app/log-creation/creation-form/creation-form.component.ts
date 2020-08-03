@@ -14,10 +14,10 @@ export class CreationFormComponent implements OnInit {
 
 
   creationForm = new FormGroup({
-    'title': new FormControl('testintg Loggrian'),
-    'tag': new FormControl('enter a tag'),
-    'tagItem': new FormControl('tag here!'),
-    'text': new FormControl('a sample of the whole thing here...')
+    'title': new FormControl('testing Loggrian: title'),
+    'tag': new FormControl(),
+    'tagList': new FormControl(),
+    'text': new FormControl()
   });
 
   constructor(private service: LogsService) {
@@ -26,20 +26,19 @@ export class CreationFormComponent implements OnInit {
 
   ngOnInit() {
     this.creationForm.get('tag').valueChanges.subscribe(tagValue => {
-      if (tagValue.length > 1) {
+      if (tagValue.length > 0) {
         this.filteredTags = this.service.getTags(tagValue);
       }
       console.log('filtTags:', this.filteredTags);
     });
   }
 
-  onTagSelected(tagBeg: string){
+  onTagSelected(tag: string){
     // console.log('tag:',tag);
-    this.creationForm.patchValue( {'tag': tagBeg});
+    this.creationForm.patchValue( {'tag': tag});
   }
   onSubmit(){
     console.log('form:', this.creationForm);
-    // this.service.postLog(this.creationForm);
-    this.service.postLog();
+    this.service.postLog(this.creationForm);
   }
 }
