@@ -20,9 +20,9 @@ export class LogCreationFormComponent implements OnInit {
 
   onTestSubject(){
   }
-  onPostLog(){
+  onPostFBLog(){
     if(this.service===undefined) console.log('the service is undefined in the formComponent');
-    // this.service.postLog();
+    this.service.postASampleLog();
   }
 
   // fetch some data from jwt securtiy app
@@ -44,16 +44,16 @@ export class LogCreationFormComponent implements OnInit {
   
 
   onGetALog(){
-    console.log('a log from the server: ', this.service.getLogById(3));
+    console.log('a log from the server: ', this.service.getLogById('3'));
   }
 
   // TODO: add a tag name as param to get a list of logs
-  onGetlogs(){
+  onGetLogs(){
     if(this.service===undefined) console.log('the service is undefined in the formComponent');
 
     console.log('logs from the server: ');
 
-    this.service.getLogsByTag('music').subscribe(
+    this.service.getLogsByTag('ads').subscribe(
       resp =>  {() => console.log('end od logs ')}, 
       error => {
         this.errorLog = error;

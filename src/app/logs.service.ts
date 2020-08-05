@@ -54,11 +54,11 @@ export class LogsService  {
   }
 
   // receives a form submission with a log to be posted
-  postLog(form: AbstractControl) {
+  createLog(form: AbstractControl) {
     console.log('form: ', form.value);
-    const { tag, title, text } = form.value;
+    const { tag, title, lines } = form.value;
     const fileName = "filename.txt"
-    this.http.post<LogInterface>("http://localhost:8080/logs", { tag, title, text, fileName }, {
+    this.http.post<LogInterface>("http://localhost:8080/logs", { tag, title, lines, fileName }, {
       // headers: new HttpHeaders({ 'withCredentials': 'true'}).set('authorization', temp.token),
       headers: new HttpHeaders().set('authorization', this.loggedUser.token),
       observe: 'body'
@@ -69,32 +69,39 @@ export class LogsService  {
       );
   }
 
-
+// I'd rather have a stream and a transformer function for each log, not a global array of logs I'll have to go through
+// TODO: add the logs by tag list in the search form
   getLogsByTag(tag: string) {
     return this.http.get<LogInterface[]>('http://localhost:8080/logs', {
       headers: new HttpHeaders().set('authorization', this.loggedUser.token),
+      params: new HttpParams().set('tag', tag),
       withCredentials: true,
       observe: 'body'
-    })
-    .pipe(
-      map(
-        logs => {
-          console.log('getLogsbytag.log.title: ');
-          for(let i = 0; i<logs.length; i++){
-            console.log('title: ', logs[i].title);
-          }
-        }
-      )
-    );
+    }) 
+    // TODO: create a new array with a simple log (nolines) and return it in the observable to be listed for selection
+    // .pipe(
+    //   map(
+    //     logs => {
+    //       const slogs:any[]= [];
+    //       console.log('getLogsbytag.log.title: ');
+    //       for(let i = 0; i<logs.length; i++){
+    //         // console.log('title: ', logs[i].title);
+    //         slogs.push({'id': logs[i].id, 'tag': logs[i].tag, 'title': logs[i].title})
+
+    //       }
+    //     }
+    //   )
+    // );
   }
 
 
 
-  // local dispatcher server 8080
-  getLogByIdLocal(num: number) {
-    return this.http.get<LogInterface>("http://localhost:8080/log?id=306");
+  // TODO: use the logs_by_tag list to find a log by id, thus it'll be unique
+  getLogById(id: string) {
+    return this.http.get<LogInterface>("http://localhost:8080/log", {params: new HttpParams().set('id', id)});
   }
 
+  // update the local tag list
   getTags(beg: string) {
     console.log('logs.service::non-filtered tags: ', this.tags)
     let temp: string[] = [];
@@ -106,12 +113,12 @@ export class LogsService  {
     return temp;
   }
 
-
+// =====================================================================================================================
   // {"-M5uk3BRfxVKukZVqhJB":{"tag":"music","text":"this is not a cool lesson for a beginner","title":"dorian mode"},
   //  "-M5vW6ZS9pTwrqrLYI0I":{"tag":"music","text":"this is not a cool lesson for a beginner","title":"dorian mode"}}
 
   // https://console.firebase.google.com/project/log-dispatcher/database/log-dispatcher/data
-  getLogById(num: number) {
+  _getLogById(num: number) {
     this.http.get<LogInterface>("https://log-dispatcher.firebaseio.com/logs.json").
       subscribe(resp => (console.log('resp received in log service ')));
   }

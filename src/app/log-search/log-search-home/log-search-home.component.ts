@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { LogsService } from '../../logs.service';
+import { LogInterface } from 'src/app/interfaces/log-interface';
 
 @Component({
   selector: 'app-log-search-home',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LogSearchHomeComponent implements OnInit {
 
-  constructor() { }
+  logs: LogInterface[] = [];
+
+  constructor(private logsService: LogsService) { }
 
   ngOnInit() {
+  }
+
+  onGetLogsByTag(tag: string){
+    this.logsService.getLogsByTag(tag).subscribe(logs => this.logs = logs);
   }
 
 }

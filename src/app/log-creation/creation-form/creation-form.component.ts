@@ -17,7 +17,7 @@ export class CreationFormComponent implements OnInit {
     'title': new FormControl('testing Loggrian: title'),
     'tag': new FormControl(),
     'tagList': new FormControl(),
-    'text': new FormControl()
+    'lines': new FormControl()
   });
 
   constructor(private service: LogsService) {
@@ -38,7 +38,7 @@ export class CreationFormComponent implements OnInit {
     this.creationForm.patchValue( {'tag': tag});
   }
   onSubmit(){
-    console.log('form:', this.creationForm);
-    this.service.postLog(this.creationForm);
+    // console.log('form:', this.creationForm);
+    this.service.createLog(this.creationForm);
   }
 }

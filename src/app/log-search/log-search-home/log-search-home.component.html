@@ -1,1 +1,21 @@
 <p>log-search-home works!</p>
+<div>
+    <button (click)="onGetLogsByTag('music')">onGetLogsByTag</button>
+</div>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Tag</th>
+        <th scope="col">Title</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let l of logs">
+        <th scope="row">i</th>
+        <td>{{l.id}}</td>
+        <td>{{l.tag}}</td>
+        <td>{{l.title}}</td>
+      </tr>
+    </tbody>
+  </table>

@@ -1,6 +1,7 @@
 
 export interface LogInterface {
+    id: string;
     title: string;
-    text: string;
+    lines: string;
     tag: string;
 }
