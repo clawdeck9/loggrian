@@ -5,10 +5,23 @@ import { AppHomeComponent } from './app-home/app-home.component';
 import { AppNotfoundComponent } from './app-notfound/app-notfound.component';
 import { AppLoginComponent } from './app-login/app-login.component';
 
-const routes: Routes = [  
-  { path: '', component: AppHomeComponent}, 
-  { path: 'login', component: AppLoginComponent} ,
-  { path: '**', component: AppNotfoundComponent} // that one is the always the last one
+const routes: Routes = [
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  {
+    path: 'search', loadChildren: () => import('./log-search/log-search.module').then(m => m.LogSearchModule)
+  }, 
+  {
+    path: 'creation', loadChildren: () => import('./log-creation/log-creation.module').then(m => m.LogCreationModule)
+  },
+  {
+    path: 'home', component: AppHomeComponent,
+    children: [
+      { path: '', component: AppNotfoundComponent },
+
+    ]
+  },
+  { path: 'login', component: AppLoginComponent },
+  { path: '**', component: AppNotfoundComponent } // that one is the always the last one
 ];
 
 @NgModule({

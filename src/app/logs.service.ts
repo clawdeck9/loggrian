@@ -98,7 +98,10 @@ export class LogsService  {
 
   // TODO: use the logs_by_tag list to find a log by id, thus it'll be unique
   getLogById(id: string) {
-    return this.http.get<LogInterface>("http://localhost:8080/log", {params: new HttpParams().set('id', id)});
+    return this.http.get<LogInterface>("http://localhost:8080/log", {
+      headers: new HttpHeaders().set('authorization', this.loggedUser.token),
+      params: new HttpParams().set('id', id)
+    });
   }
 
   // update the local tag list
