@@ -25,7 +25,7 @@ export class LogSearchHomeComponent implements OnInit {
 
     // this.router.navigate(['../reader', {relativeTo: this.route}]);
     // add this to the button in template: [routerLink]="['/search/form', log.id]"
-    this.router.navigateByUrl('/creation/form/3');// TODO: send the logs to the list
+    // this.router.navigateByUrl('/search/bytag/music');// TODO: send the logs to the list
   }
 
   // onGetLogById(id: string){

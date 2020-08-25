@@ -6,18 +6,18 @@ import { AppNotfoundComponent } from './app-notfound/app-notfound.component';
 import { AppLoginComponent } from './app-login/app-login.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  // { path: '', redirectTo: '/login', pathMatch: 'full' },
+      { path: '', component: AppLoginComponent},
   {
     path: 'search', loadChildren: () => import('./log-search/log-search.module').then(m => m.LogSearchModule)
   }, 
-  {
-    path: 'creation', loadChildren: () => import('./log-creation/log-creation.module').then(m => m.LogCreationModule)
-  },
+  // {
+  //   path: 'creation', loadChildren: () => import('./log-creation/log-creation.module').then(m => m.LogCreationModule)
+  // },
   {
     path: 'home', component: AppHomeComponent,
     children: [
-      { path: '', component: AppNotfoundComponent },
-
+      { path: '', component: AppNotfoundComponent }
     ]
   },
   { path: 'login', component: AppLoginComponent },

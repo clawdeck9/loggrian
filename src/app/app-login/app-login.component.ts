@@ -39,6 +39,7 @@ export class AppLoginComponent implements OnInit {
   get username(){
     return this.loginForm.value.username;
   }
+  
   get password(){
     return this.loginForm.value.password;
   }
@@ -50,7 +51,8 @@ export class AppLoginComponent implements OnInit {
 
   onSubmit() {
     console.log('onSubmit(): ',this.loginForm);
+    // TEMP!
     this.auth.login('user', 'user');
-    this.loginForm.reset();
+    // this.loginForm.reset();
   }
 }

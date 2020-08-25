@@ -106,7 +106,7 @@ export class LogsService  {
 
   // update the local tag list
   getTags(beg: string) {
-    console.log('logs.service::non-filtered tags: ', this.tags)
+    // console.log('logs.service::non-filtered tags: ', this.tags)
     let temp: string[] = [];
     for (let i in this.tags) {
       if (this.tags[i].startsWith(beg)) {

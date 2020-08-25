@@ -6,10 +6,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { AppHomeComponent } from './app-home/app-home.component';
 import { AppNotfoundComponent } from './app-notfound/app-notfound.component';
-import { LogCreationModule } from './log-creation/log-creation.module';
 import { LogSearchModule } from './log-search/log-search.module';
 import { AppLoginComponent } from './app-login/app-login.component';
 import { HeaderComponent } from './header/header.component';
+// import { LogCreationModule } from './log-creation/log-creation.module';
 // import { AuthService } from './auth.service';
 
 @NgModule({
@@ -25,7 +25,7 @@ import { HeaderComponent } from './header/header.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    LogCreationModule,
+    // LogCreationModule,
     LogSearchModule,
     AppRoutingModule
   ],
